@@ -1,0 +1,16 @@
+# TODO(b/268706760): Conditional start of keymaster service is temporary, during
+# the migration to KeyMint. Per init.rc, "nonencrypted" starts class "main" as
+# first thing.
+on nonencrypted && property:ro.boot.arc_switch_to_keymint=0
+    start vendor.keymaster-3-0
+
+service vendor.keymaster-3-0 /vendor/bin/hw/android.hardware.keymaster@3.0-service-cheets
+    # keymaster should start no earlier than arcbridge:
+    # Once keystore2 starts, it calls keymaster. Keymaster needs to talk to
+    # arcbridge to bootstrap mojo connection. Keymaster may start later than
+    # keystore2, in which case the later would wait. But once keymaster tries to
+    # reply, it needs the mojo connection to not fail, thus needs arcbridge to
+    # be up running.
+    user system
+    group system drmrpc
+    interface android.hardware.keymaster@3.0::IKeymasterDevice default

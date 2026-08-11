@@ -1,0 +1,5 @@
+service arcvm-boot-notification-client /vendor/bin/arcvm-boot-notification-client
+    oneshot
+    user system
+    group system
+    reboot_on_failure reboot,arcvm-boot-notification-client-failed

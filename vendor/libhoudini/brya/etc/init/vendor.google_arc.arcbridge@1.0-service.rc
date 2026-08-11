@@ -1,0 +1,8 @@
+service vendor.google_arc.arcbridge-1-0 /vendor/bin/hw/vendor.google_arc.arcbridge@1.0-service
+    # The service is in class main because we want to start only core services
+    # on login screen, and to avoid arcbridgeservice to block for a long time.
+    # TODO(victorhsieh): Move back to core once servicification is done.
+    class main
+    user system
+    group vendor_arc_bridge
+    critical

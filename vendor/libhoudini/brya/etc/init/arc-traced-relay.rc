@@ -1,0 +1,20 @@
+# arc-traced-relay is the service that listens to the traced_producer socket and
+# relays the trace data to the host through VSOCK.
+service arc-traced-relay /system/bin/traced_relay
+    class late_start
+    disabled
+    socket traced_producer stream 0666 root root
+    user nobody
+    group nobody
+    # |PERFETTO_RELAY_SOCK_NAME| is the socket to forward trace data to: host
+    # CID (= 2) and port number 30001.
+    setenv PERFETTO_RELAY_SOCK_NAME vsock://2:30001
+    task_profiles ProcessCapacityHihg
+
+on property:vendor.arc.perfetto.trace_from_host=1
+    stop traced
+    start arc-traced-relay
+
+on property:vendor.arc.perfetto.trace_from_host=0
+    stop arc-traced-relay
+    start traced

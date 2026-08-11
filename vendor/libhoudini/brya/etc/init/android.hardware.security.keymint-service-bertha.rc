@@ -1,0 +1,17 @@
+# TODO(b/325381372): This is a temporary conditional start of keymint service,
+# for ARC-T. This service should eventually be class early_hal.
+on nonencrypted && property:ro.boot.arc_switch_to_keymint=1
+    start vendor.keymint
+
+# Send Early Boot signal only when we are sure that KeyMint is now available.
+on property:ro.boot.arc_switch_to_keymint=1 && property:ro.vendor.arc.keymint_available=1
+    # At post-fs-data, /data is mounted and we have created /data/misc/keystore.
+    # Tell keystore to stop allowing use of early-boot keys, and access its
+    # database for the first time to support creation and use of MAX_BOOT_LEVEL
+    # keys.
+    # The signal is sent when we can ensure that KeyMint is available.
+    exec - system system -- /system/bin/vdc keymaster earlyBootEnded
+
+service vendor.keymint /vendor/bin/hw/android.hardware.security.keymint-service-bertha
+    user system
+    group system drmrpc

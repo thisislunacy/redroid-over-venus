@@ -1,0 +1,8 @@
+service arc-mojo-proxy /vendor/bin/arc-mojo-proxy
+    # In the same class as arcbridge.
+    class main
+    user system
+    group system
+    # No way to keep the entire system consistent when this process is broken.
+    # Shut down the entire VM in case of failure.
+    onrestart setprop sys.powerctl reboot
