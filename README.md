@@ -4,6 +4,8 @@
 # Requirements
 - **nvidia-drm.modeset=1**: required for `dmabuf` to work;
 - **nvidia-open** kernel modules, not proprietary, version **595.71+** (**610.xx** is recommended);
+- **psi=1** in kernel parameters;
+- **binder_linux** (binderfs) in kernel modules;
 - Available **/dev/udmabuf** (`boot.kernelModules = [ "udmabuf" ];` on **NixOS**);
 - Nix package manager
 
@@ -41,4 +43,4 @@ flowchart TD
 Open an issue and submit a PR if you think something could be improved.
 
 # License
-Licensed under **MIT**.
+Original code in `/vendor/src` is **MIT**. Files under `/vendor/patches/` are derivative works of their respective upstreams and carry those upstreams' licenses.
