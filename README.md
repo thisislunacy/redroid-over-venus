@@ -12,7 +12,7 @@
 The `venus.service` daemon checks the driver version, udmabuf, and modeset at runtime before initialization — before launching redroid, verify via journalctl that the preflight check hasn't produced any errors.
 
 # How to use outside of NixOS?
-Install the **Nix** package manager from the official [NixOS](https://nixos.org/download/) website.
+The repository contains only [NixOS](https://nixos.org/download/) configurations.
 
 # Why Venus instead of the open Mesa stack (nouveau+nvk+zink)?
 The open stack for NVIDIA is still fairly young despite its progress. It delivers on average 70–80% of native proprietary driver performance, and it does build for Android via the NDK — but SurfaceFlinger still doesn't handle **zink** and **nvk** properly. Proprietary drivers with open kernel modules (**nvidia-open**) give native performance, and Venus has almost no overhead (see below).
